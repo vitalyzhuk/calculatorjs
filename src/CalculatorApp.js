@@ -94,6 +94,7 @@ class CalculatorApp extends React.Component {
                 style4="btn--operations"
                 defaultOnClick={this.onButtonClick}
                 onClick1={this.onCommonOperationClick}
+                onClick3={this.onClearClick}
                 onClick4={this.onUndoClick}
                 />
 
