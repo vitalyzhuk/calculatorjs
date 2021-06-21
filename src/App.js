@@ -1,17 +1,16 @@
-import logo from './logo.svg';
 import './App.css';
-import './SimpleForm.css';
+import './ButtonsForm.css';
 
-import SimpleForm from "./SimpleForm";
+import ButtonsForm from "./ButtonsForm";
 
 
 
 function App() {
   return (
-    <div className="SimpleForm">
-          <header className="SimpleForm-header">
-          <SimpleForm/>
-          </header>
+    <div className="ButtonsForm">
+      <header className="ButtonsForm-header">
+        <ButtonsForm/>
+      </header>
     </div>
   );
 }

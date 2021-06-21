@@ -7,11 +7,14 @@ export const Button = ({
     type,
     onClick,
     buttonStyle,
-    buttonSize
+    buttonSize,
+    style
 }) => {
     return (
-    <button style={{margin:10}} className={`btn ${buttonStyle} ${buttonSize}`} onClick={onClick} type={type}>
+    <button className={`btn ${buttonStyle} ${buttonSize}`} onClick={onClick} type={type}>
+      <header className="btn-header">
         {child}
+      </header>
     </button>
     )
 };

@@ -1,12 +1,14 @@
 import React from "react";
-import Greetings from "./Calc";
+
+import './ButtonsForm.css';
+
 import {Button} from "./buttons/Button";
+import {ButtonFrame} from "./buttons/ButtonFrame";
 
 
-class SimpleForm extends React.Component {
+class ButtonsForm extends React.Component {
   state = {
-    firstName: "",
-    firstNameError: "",
+    firstName: ""
   };
 
   validateName = name => {
@@ -24,6 +26,7 @@ class SimpleForm extends React.Component {
 
     return this.setState({ firstNameError });
   };
+
   onButtonClick = event => {
     this.setState({
           clicked: true,
@@ -45,25 +48,40 @@ class SimpleForm extends React.Component {
 
     return (
       <div>
-        <div>
-          <label>
-            First name:
-            <input
-              type="text"
-              name="firstName"
-              onChange={this.onFirstNameChange}
-              onBlur={this.onFirstNameBlur}
-            />
-            {firstNameError && <div style={{color: 'red', margin: 5}}>{firstNameError}</div>}
-          </label>
-        </div>
+        <ButtonFrame
+                text1="*"
+                text2="Square"
+                text3="Clear"
+                text4="<="
+                />
 
-        <Button
-        child="button text"
-        buttonSize="btn--medium"
-        buttonStyle="btn--primary--solid"
-        onClick={this.onButtonClick}
-        />
+        <ButtonFrame
+                text1="7"
+                text2="8"
+                text3="9"
+                text4="/"
+                />
+
+        <ButtonFrame
+                text1="4"
+                text2="5"
+                text3="6"
+                text4="-"
+                />
+
+        <ButtonFrame
+                text1="1"
+                text2="2"
+                text3="3"
+                text4="+"
+                />
+
+        <ButtonFrame
+                text1="+/-"
+                text2="0"
+                text3="\,"
+                text4="="
+                />
 
         {this.state.clicked?<Greetings firstName={firstName}/>:null}
       </div>
@@ -71,4 +89,4 @@ class SimpleForm extends React.Component {
   }
 }
 
-export default SimpleForm;
+export default ButtonsForm;

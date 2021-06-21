@@ -1,0 +1,16 @@
+.ButtonsForm {
+  text-align: center;
+}
+
+
+
+.ButtonsForm-header {
+  background-color: #282c34;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  justify-content: space-evenly;
+  min-width: 100vw;
+  min-height: 50vh;
+}
+

@@ -1,0 +1,21 @@
+.ButtonFrame {
+  text-align: center;
+}
+
+
+
+.ButtonFrame-header {
+  background-color: #282c50;
+  display: flex;
+  flex-direction: row;
+  align-items: flex-start;
+  justify-content: space-around;
+  color: white;
+  min-height: 10vh;
+  min-width: 100vw;
+
+}
+
+
+
+
