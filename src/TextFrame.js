@@ -1,9 +1,9 @@
 import React from "react";
+import './TextFrame.css';
 
-const TextFrame = ({ firstName, lastName }) => (
-    <div>
-        Hey you! {firstName} {lastName}!
+export const TextFrame = ({ text }) => (
+    <div className="TextFrame-header">
+      {text}
     </div>
 );
 
-export default TextFrame;

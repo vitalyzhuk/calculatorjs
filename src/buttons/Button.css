@@ -1,6 +1,8 @@
 :root {
   --primary: #4628ff;
   --white: #fdfdfd;
+  --orchid: #DA70D6;
+  --magneta: #8B008B;
 }
 
 .btn-header {
@@ -22,6 +24,18 @@
 
 .btn--primary--solid {
     background-color: var(--primary);
+    color: var(--white);
+    border: 0.5vh outset ;
+}
+
+.btn--operations {
+    background-color: var(--orchid);
+    color: var(--white);
+    border: 0.5vh outset ;
+}
+
+.btn--equals {
+    background-color: var(--magneta);
     color: var(--white);
     border: 0.5vh outset ;
 }

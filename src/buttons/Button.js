@@ -7,8 +7,7 @@ export const Button = ({
     type,
     onClick,
     buttonStyle,
-    buttonSize,
-    style
+    buttonSize
 }) => {
     return (
     <button className={`btn ${buttonStyle} ${buttonSize}`} onClick={onClick} type={type}>

@@ -1,14 +1,14 @@
 import React from "react";
+import './CalculatorApp.css';
 
-import './ButtonsForm.css';
 
-import {Button} from "./buttons/Button";
+import {TextFrame} from "./TextFrame"
 import {ButtonFrame} from "./buttons/ButtonFrame";
 
 
-class ButtonsForm extends React.Component {
+class CalculatorApp extends React.Component {
   state = {
-    firstName: ""
+    output: ""
   };
 
   validateName = name => {
@@ -29,10 +29,14 @@ class ButtonsForm extends React.Component {
 
   onButtonClick = event => {
     this.setState({
-          clicked: true,
-          firstName: this.state.tmp
-        });
+      clicked: true,
+      output: this.state.output + " " + event.target.innerText
+    });
+
   };
+
+
+
   onFirstNameChange = event => {
         this.setState({
           tmp: event.target.value
@@ -44,15 +48,23 @@ class ButtonsForm extends React.Component {
   };
 
   render() {
-    const {firstName, firstNameError, clicked, tmp} = this.state;
+    const {output, currentBtn} = this.state;
 
     return (
-      <div>
+    <React.Fragment>
+      <TextFrame text={output} />
+
+      <div className="CalculatorApp-content">
         <ButtonFrame
                 text1="*"
                 text2="Square"
                 text3="Clear"
                 text4="<="
+                style1="btn--operations"
+                style2="btn--operations"
+                style3="btn--operations"
+                style4="btn--operations"
+                defaultOnClick={this.onButtonClick}
                 />
 
         <ButtonFrame
@@ -60,6 +72,7 @@ class ButtonsForm extends React.Component {
                 text2="8"
                 text3="9"
                 text4="/"
+                style4="btn--operations"
                 />
 
         <ButtonFrame
@@ -67,6 +80,7 @@ class ButtonsForm extends React.Component {
                 text2="5"
                 text3="6"
                 text4="-"
+                style4="btn--operations"
                 />
 
         <ButtonFrame
@@ -74,19 +88,22 @@ class ButtonsForm extends React.Component {
                 text2="2"
                 text3="3"
                 text4="+"
+                style4="btn--operations"
                 />
 
         <ButtonFrame
                 text1="+/-"
                 text2="0"
-                text3="\,"
+                text3=","
                 text4="="
+                style1="btn--operations"
+                style3="btn--operations"
+                style4="btn--equals"
                 />
-
-        {this.state.clicked?<Greetings firstName={firstName}/>:null}
       </div>
+    </React.Fragment>
     );
   }
 }
 
-export default ButtonsForm;
+export default CalculatorApp;
