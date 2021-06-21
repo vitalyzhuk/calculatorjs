@@ -24,10 +24,9 @@ class CalculatorApp extends React.Component {
     } else {
         if (this.state.isCommonOperatorUsed){
             if (this.isOutputEndsCommonOperator()) {
-                this.clearLastOutput(3);
                 this.setState({
                   isCommonOperatorUsed: true,
-                  output: this.state.output + " " + event.target.innerText + " "
+                  output: this.clearLastOutput(3) + " " + event.target.innerText + " "
                 });
             }
 
@@ -46,21 +45,20 @@ class CalculatorApp extends React.Component {
 
   onUndoClick = () => {
     if (this.isOutputEndsCommonOperator()) {
-        this.clearLastOutput(3);
         this.setState({
-          isCommonOperatorUsed: false
+          isCommonOperatorUsed: false,
+          output: this.clearLastOutput(3)
         });
     } else {
-        this.clearLastOutput(1);
         this.setState({
-          output: this.state.output
+          output: this.clearLastOutput(1)
         });
     }
   };
 
   clearLastOutput = num => {
     num = num?num:1;
-    this.state.output = this.state.output.slice(0, -num);
+    return this.state.output.slice(0, -num);
   };
 
   onClearClick = () => {
