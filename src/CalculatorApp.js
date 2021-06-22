@@ -15,10 +15,11 @@ class CalculatorApp extends React.Component {
   };
 
   onButtonClick = event => {
-    if (this.state.operator === "")
-        this.setState({ first: (this.state.first==="0"?"":this.state.first) + event.target.innerText });
-    else
-        this.setState({ second: this.state.second + event.target.innerText });
+    if (this.state.operator === "") {
+        if (this.state.first==="0") return this.setState({ first: event.target.innerText });
+        if (this.state.first==="-0") return this.setState({ first: "-" + event.target.innerText });
+        this.setState({ first: this.state.first + event.target.innerText });
+    } else this.setState({ second: this.state.second + event.target.innerText });
   };
 
   onCommonOperationClick = event => {
