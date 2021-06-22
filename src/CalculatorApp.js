@@ -40,7 +40,7 @@ class CalculatorApp extends React.Component {
   };
 
   isOutputEndsCommonOperator = () => {
-    return this.state.output.match(/.* [\* \/ \- \+] (?!\d)/g);
+    return this.state.output.match(/.* [* / \- +] (?!\d)/g);
   };
 
   onUndoClick = () => {
