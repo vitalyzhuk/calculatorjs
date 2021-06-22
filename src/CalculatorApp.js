@@ -19,24 +19,23 @@ class CalculatorApp extends React.Component {
   };
 
   onCommonOperationClick = event => {
-    if (this.state.output === "") {
-        return;
-    } else {
-        if (this.state.isCommonOperatorUsed){
-            if (this.isOutputEndsCommonOperator()) {
-                this.setState({
-                  isCommonOperatorUsed: true,
-                  output: this.clearLastOutput(3) + " " + event.target.innerText + " "
-                });
-            }
+    if (this.state.output === "") return;
 
-        } else {
+    if (this.state.isCommonOperatorUsed){
+        if (this.isOutputEndsCommonOperator()) {
             this.setState({
               isCommonOperatorUsed: true,
-              output: this.state.output + " " + event.target.innerText + " "
+              output: this.clearLastOutput(3) + " " + event.target.innerText + " "
             });
         }
+
+    } else {
+        this.setState({
+          isCommonOperatorUsed: true,
+          output: this.state.output + " " + event.target.innerText + " "
+        });
     }
+
   };
 
   isOutputEndsCommonOperator = () => {
@@ -69,8 +68,15 @@ class CalculatorApp extends React.Component {
   };
 
   onSquareClick = event => {
+    let output = this.state.output;
+    if (output === "") return;
+    if (this.isOutputEndsCommonOperator()) output = this.clearLastOutput(3);
+    this.setState({
+      output: "( " + output + " )^2" ,
+      isCommonOperatorUsed: false
+    });
 
-
+    //do calc
   };
 
   render() {
@@ -92,6 +98,7 @@ class CalculatorApp extends React.Component {
                 style4="btn--operations"
                 defaultOnClick={this.onButtonClick}
                 onClick1={this.onCommonOperationClick}
+                onClick2={this.onSquareClick}
                 onClick3={this.onClearClick}
                 onClick4={this.onUndoClick}
                 />
