@@ -67,7 +67,7 @@ class CalculatorApp extends React.Component {
     });
   };
 
-  onSquareClick = event => {
+  onSquareClick = () => {
     let output = this.state.output;
     if (output === "") return;
     if (this.isOutputEndsCommonOperator()) output = this.clearLastOutput(3);
@@ -77,6 +77,15 @@ class CalculatorApp extends React.Component {
     });
 
     //do calc
+  };
+
+  onInvertClick = () => {
+    let output = this.state.output;
+    if (output[0] === "-") output = output.slice(1);
+    else output = "-" + output;
+    this.setState({
+      output: output
+    });
   };
 
   render() {
@@ -142,6 +151,7 @@ class CalculatorApp extends React.Component {
                 style3="btn--operations"
                 style4="btn--equals"
                 defaultOnClick={this.onButtonClick}
+                onClick1={this.onInvertClick}
                 />
       </div>
     </React.Fragment>
