@@ -8,88 +8,94 @@ import {ButtonFrame} from "./buttons/ButtonFrame";
 
 class CalculatorApp extends React.Component {
   state = {
-    output: "",
-    isCommonOperatorUsed: false,
+    first: "0",
+    second: "",
+    operator: "",
+    square: false
   };
 
   onButtonClick = event => {
-    this.setState({
-      output: this.state.output + event.target.innerText
-    });
+    if (this.state.operator === "")
+        this.setState({ first: (this.state.first==="0"?"":this.state.first) + event.target.innerText });
+    else
+        this.setState({ second: this.state.second + event.target.innerText });
   };
 
   onCommonOperationClick = event => {
-    if (this.state.output === "") return;
+    if (this.state.second !== "") return;
 
-    if (this.state.isCommonOperatorUsed){
-        if (this.isOutputEndsCommonOperator()) {
-            this.setState({
-              isCommonOperatorUsed: true,
-              output: this.clearLastOutput(3) + " " + event.target.innerText + " "
-            });
-        }
-
-    } else {
-        this.setState({
-          isCommonOperatorUsed: true,
-          output: this.state.output + " " + event.target.innerText + " "
-        });
-    }
-
-  };
-
-  isOutputEndsCommonOperator = () => {
-    return this.state.output.match(/.* [* / \- +] (?!\d)/g);
+    this.setState({ operator: event.target.innerText });
   };
 
   onUndoClick = () => {
-    if (this.isOutputEndsCommonOperator()) {
-        this.setState({
-          isCommonOperatorUsed: false,
-          output: this.clearLastOutput(3)
-        });
-    } else {
-        this.setState({
-          output: this.clearLastOutput(1)
-        });
-    }
-  };
+    if (this.state.first === "0") return;
 
-  clearLastOutput = num => {
-    num = num?num:1;
-    return this.state.output.slice(0, -num);
+    if (this.state.second !== "") {
+        this.setState({ second: this.state.second.slice(0, -1) });
+        return;
+    }
+
+    if (this.state.operator !== "") {
+        this.setState({ operator: "" });
+        return;
+    }
+
+    let first = this.state.first.slice(0, -1);
+    if (first === "-" || first === "") first = first + "0";
+    this.setState({ first: first });
   };
 
   onClearClick = () => {
     this.setState({
-      output: "",
-      isCommonOperatorUsed: false
+      first: "0",
+      second: "",
+      operator: "",
+      square: false
     });
   };
 
   onSquareClick = () => {
-    let output = this.state.output;
-    if (output === "") return;
-    if (this.isOutputEndsCommonOperator()) output = this.clearLastOutput(3);
-    this.setState({
-      output: "( " + output + " )^2" ,
-      isCommonOperatorUsed: false
-    });
+    this.setState({ square: true });
 
     //do calc
   };
 
   onInvertClick = () => {
-    let output = this.state.output;
-    if (output[0] === "-") output = output.slice(1);
-    else output = "-" + output;
-    this.setState({
-      output: output
-    });
+    let first = this.state.first;
+
+    if (first[0] === "-") first = first.slice(1);
+    else first = "-" + first;
+
+    this.setState({ first: first });
+  };
+
+  onQuoteClick = () => {
+    let second = this.state.second;
+    if (second !== "") {
+        if (second.indexOf(",") !== -1) return;
+        this.setState({ second: second + "," });
+        return;
+    }
+
+    if (this.state.operator !== "") return;
+
+    let first = this.state.first;
+    if (first.indexOf(",") !== -1) return;
+    this.setState({ first: first + "," });
+  };
+
+  makeOutput = state => {
+    let output = state.first;
+
+    if ( (!(state.operator === "")) || (!state.square) )
+        output = output + " " + state.operator + " " + state.second;
+
+    if (state.square) return "( " + output + " )^2"
+    return output;
   };
 
   render() {
-    const {output} = this.state;
+    let output = this.makeOutput(this.state);
 
     return (
     <React.Fragment>
@@ -152,6 +158,7 @@ class CalculatorApp extends React.Component {
                 style4="btn--equals"
                 defaultOnClick={this.onButtonClick}
                 onClick1={this.onInvertClick}
+                onClick3={this.onQuoteClick}
                 />
       </div>
     </React.Fragment>
