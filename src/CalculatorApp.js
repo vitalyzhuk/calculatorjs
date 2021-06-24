@@ -16,35 +16,44 @@ class CalculatorApp extends React.Component {
   };
 
   onButtonClick = event => {
-    if (this.state.operator === "") {
-        if (this.state.first==="0") return this.setState({ first: event.target.innerText });
-        if (this.state.first==="-0") return this.setState({ first: "-" + event.target.innerText });
-        this.setState({ first: this.state.first + event.target.innerText });
-    } else this.setState({ second: this.state.second + event.target.innerText });
+    var state = this.getStateHandler();
+    if (state.operator === "") {
+        if (state.first==="0") state.first = event.target.innerText;
+        else {
+            if (state.first==="-0") state.first = "-" + event.target.innerText;
+            else state.first = state.first + event.target.innerText;
+        }
+
+    } else state.second = state.second + event.target.innerText;
+
+    this.setState(state);
   };
 
   onCommonOperationClick = event => {
-    if (this.state.second !== "") return;
+    var state = this.getStateHandler();
 
-    this.setState({ operator: event.target.innerText });
+    if (state.second !== "") return;
+
+    state.operator = event.target.innerText;
+    this.setState(state);
   };
 
   onUndoClick = () => {
-    if (this.state.first === "0") return;
+    var state = this.getStateHandler();
 
-    if (this.state.second !== "") {
-        this.setState({ second: this.state.second.slice(0, -1) });
-        return;
+    if (state.first === "0") return;
+
+    if (state.second !== "") state.second = state.second.slice(0, -1);
+    else {
+        if (state.operator !== "") state.operator = "";
+        else {
+            let first = state.first.slice(0, -1);
+            if (first === "-" || first === "") first = first + "0";
+            state.first = first;
+        }
     }
 
-    if (this.state.operator !== "") {
-        this.setState({ operator: "" });
-        return;
-    }
-
-    let first = this.state.first.slice(0, -1);
-    if (first === "-" || first === "") first = first + "0";
-    this.setState({ first: first });
+    this.setState(state);
   };
 
   onClearClick = () => {
@@ -52,39 +61,46 @@ class CalculatorApp extends React.Component {
       first: "0",
       second: "",
       operator: "",
-      square: false
+      square: false,
+      result: ""
     });
   };
 
   onSquareClick = () => {
-    var actualState = this.state;
-    actualState.square = true;
+    var state = this.getStateHandler();
+    state.square = true;
 
-    this.calculate(actualState);
+    this.calculate(state);
   };
 
   onInvertClick = () => {
-    let first = this.state.first;
+    var state = this.getStateHandler();
+
+    let first = state.first;
 
     if (first[0] === "-") first = first.slice(1);
     else first = "-" + first;
 
-    this.setState({ first: first });
+    state.first = first;
+    this.setState(state);
   };
 
   onQuoteClick = () => {
-    let second = this.state.second;
+    var state = this.getStateHandler();
+
+    let second = state.second;
     if (second !== "") {
-        if (second.indexOf(",") !== -1) return;
-        this.setState({ second: second + "," });
-        return;
+        if (second.indexOf(".") !== -1) return;
+        state.second = second + ".";
+    } else {
+        if (this.state.operator !== "") return;
+
+        let first = state.first;
+        if (first.indexOf(".") !== -1) return;
+        state.first = first + ".";
     }
 
-    if (this.state.operator !== "") return;
-
-    let first = this.state.first;
-    if (first.indexOf(",") !== -1) return;
-    this.setState({ first: first + "," });
+    this.setState(state);
   };
 
   makeOutput = state => {
@@ -99,7 +115,19 @@ class CalculatorApp extends React.Component {
   };
 
   onResultClick = () => {
-    this.calculate(this.state);
+    this.calculate(this.getStateHandler());
+  };
+
+  getStateHandler = () => {
+    var state = this.state;
+    if (state.result !== "") {
+        state.first = "0";
+        state.second = "";
+        state.operator = "";
+        state.square = false;
+        state.result = "";
+    }
+    return state;
   };
 
  calculate = actualState => {
