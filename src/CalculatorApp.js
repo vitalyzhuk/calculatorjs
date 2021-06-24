@@ -11,7 +11,8 @@ class CalculatorApp extends React.Component {
     first: "0",
     second: "",
     operator: "",
-    square: false
+    square: false,
+    result: ""
   };
 
   onButtonClick = event => {
@@ -56,9 +57,10 @@ class CalculatorApp extends React.Component {
   };
 
   onSquareClick = () => {
-    this.setState({ square: true });
+    var actualState = this.state;
+    actualState.square = true;
 
-    //do calc
+    this.calculate(actualState);
   };
 
   onInvertClick = () => {
@@ -86,6 +88,7 @@ class CalculatorApp extends React.Component {
   };
 
   makeOutput = state => {
+    if (state.result !== "") return state.result;
     let output = state.first;
 
     if ( (!(state.operator === "")) || (!state.square) )
@@ -94,6 +97,38 @@ class CalculatorApp extends React.Component {
     if (state.square) return "( " + output + " )^2"
     return output;
   };
+
+  onResultClick = () => {
+    this.calculate(this.state);
+  };
+
+ calculate = actualState => {
+    const requestOptions = {
+        method: "POST",
+        headers: { 'Content-Type': 'application/json'},
+        body: JSON.stringify(actualState)
+    };
+
+    fetch("http://localhost:8080/calculate", requestOptions)
+       .then(response=>response.json())
+       .then(
+          (response)=>{this.setState({
+                            result: response.historicalOutput,
+                            first: actualState.first ,
+                            second: actualState.second ,
+                            operator: actualState.operator ,
+                            square: actualState.square
+                            });},
+          (error)=>{this.setState({
+                            result: error.message,
+                            first: actualState.first ,
+                            second: actualState.second ,
+                            operator: actualState.operator ,
+                            square: actualState.square
+                            });}
+          );
+  };
+
 
   render() {
     let output = this.makeOutput(this.state);
@@ -160,6 +195,7 @@ class CalculatorApp extends React.Component {
                 defaultOnClick={this.onButtonClick}
                 onClick1={this.onInvertClick}
                 onClick3={this.onQuoteClick}
+                onClick4={this.onResultClick}
                 />
       </div>
     </React.Fragment>
