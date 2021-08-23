@@ -1,12 +1,12 @@
 .TextFrame-header {
   background-color: #1E90FF;
   color: white;
-    display: flex;
+  display: flex;
   flex-grow: 1;
-    font-size: 2vmax;
-    text-align: left;
-    color: #FFE4B5;
-    padding: 2vh;
+  font-size: 2vmax;
+  text-align: left;
+  color: #FFE4B5;
+  padding: 2vh;
 }
 
 
